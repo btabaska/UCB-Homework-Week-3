@@ -18,7 +18,10 @@ function writePassword() {
 generateBtn.addEventListener("click", writePassword);
 
 function generatePassword() {
-  gatherUserInput();
+  var gatheredInformation = gatherUserInput();
+  for (let i = 0; i < gatheredInformation[0]; i++) {
+    console.log(i);
+  }
 }
 
 function gatherUserInput() {
@@ -40,20 +43,34 @@ function gatherUserInput() {
     "Would you like your password to require a special character?"
   );
 
-  checkComplexity(
-    passwordLower,
-    passwordUpper,
-    passwordNumeric,
-    passwordSpecial
-  );
+  if (
+    checkComplexity(
+      passwordLower,
+      passwordUpper,
+      passwordNumeric,
+      passwordSpecial
+    ) == true
+  ) {
+    return [
+      passwordLength,
+      passwordLower,
+      passwordUpper,
+      passwordNumeric,
+      passwordSpecial,
+    ];
+  }
 
   function checkComplexity(a, b, c, d) {
     if (a == false && b == false && c == false && d == false) {
       alert(
         "You must select at least one option to enhance the complexity of your password."
       );
+      return false;
+    } else if (checkLength(passwordLength) == false) {
+      return false;
+    } else {
+      return true;
     }
-    checkLength(passwordLength);
   }
 
   function checkLength(passwordLength) {
@@ -61,14 +78,19 @@ function gatherUserInput() {
       alert(
         "The entry you provided could not be converted to a number. Please contact the site administrator"
       );
+      return false;
     } else if (passwordLength < 8 || passwordLength > 128) {
       alert(
         "Your password length is outside the acceptable range [Between 8 and 128 characters"
       );
+      return false;
     } else if (passwordLength % 1 != 0) {
       alert(
         "You have entered a number that is not a whole number. Please try again with a whole number."
       );
+      return false;
+    } else {
+      return true;
     }
   }
 }
