@@ -7,6 +7,7 @@ function writePassword() {
   //Creates a variable password and assigns it the return value of generatePassword
   var password = generatePassword();
 
+  //added to validate that the returned data of the function call doesnt write undefined to the screen
   if (password != undefined) {
     //Creates a variable that stores the html for the password readonly text area
     var passwordText = document.querySelector("#password");
@@ -21,47 +22,52 @@ function writePassword() {
 generateBtn.addEventListener("click", writePassword);
 
 function generatePassword() {
+  //Calls a function to gather input from user
   var gatheredInformation = gatherUserInput();
-  console.log(gatheredInformation);
+  //Create the password variable as an empty object
   var password = "";
+  //Create i for my while loop
   i = 0;
+  //check my returned array is not undefined
   if (gatheredInformation != undefined) {
+    //while i is less than the user defined password length
     while (i < gatheredInformation[4]) {
       randomCharacter();
 
+      //this function creates a switch statement based off a random number 0-4
       function randomCharacter() {
         switch (getRandomInt(4)) {
+          //each of these maps to a complexity option, it appends a random character of that complexity group, then increments it
+          //TODO: This is not the fastest way of doing this. Each time the case is not true, the loop runs again which lowers efficency.
           case 0:
             if (gatheredInformation[0]) {
-              console.log("generate lowercase");
               password += getRandomLetter().toLowerCase();
               i++;
             }
           case 1:
             if (gatheredInformation[1]) {
-              console.log("generate uppercase");
               password += getRandomLetter().toUpperCase();
               i++;
             }
           case 2:
             if (gatheredInformation[2]) {
-              console.log("generate number");
               password += getRandomInt(10);
               i++;
             }
           case 3:
             if (gatheredInformation[3]) {
-              console.log("generate special");
               password += getRandomSpecial();
               i++;
             }
         }
       }
     }
+    //returns the finished password object
     return password;
   }
 }
 
+//This is used to gather the user input through a series of prompts
 function gatherUserInput() {
   var passwordLength = parseInt(
     prompt(
@@ -80,7 +86,7 @@ function gatherUserInput() {
   var passwordSpecial = confirm(
     "Would you like your password to require a special character?"
   );
-
+  //If all are true it returns all of the choices in an array
   if (
     checkComplexity(
       passwordLower,
@@ -97,6 +103,7 @@ function gatherUserInput() {
       passwordLength,
     ];
   }
+  //This function validates that not all complexity choices are false, then runs the checklength function to validate that.
 
   function checkComplexity(a, b, c, d) {
     if (a == false && b == false && c == false && d == false) {
@@ -110,7 +117,7 @@ function gatherUserInput() {
       return true;
     }
   }
-
+  //This checks that the password length is correct, that it is a number and that it is a whole number
   function checkLength(passwordLength) {
     if (typeof passwordLength != "number") {
       alert(
@@ -133,15 +140,16 @@ function gatherUserInput() {
   }
 }
 
+//Random Integer generator
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
+//Random Letter generator
 function getRandomLetter() {
   letters = "abcdefghijklmnopqrstuvwxyz";
   return letters[getRandomInt(25)];
 }
-
+//random special generator
 function getRandomSpecial() {
   special = "!@#$-_%^&*?";
   return special[getRandomInt(10)];
