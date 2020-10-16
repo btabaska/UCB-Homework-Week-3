@@ -131,7 +131,7 @@ function gatherUserInput() {
       return false;
     } else if (passwordLength % 1 != 0) {
       alert(
-        "You have entered a number that is not a whole number. Please try again with a whole number."
+        "What you have entered is not a number in the supported range. Please try again with a whole number between 8 and 128 "
       );
       return false;
     } else {
