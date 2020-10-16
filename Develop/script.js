@@ -6,11 +6,14 @@ var generateBtn = document.querySelector("#generate");
 function writePassword() {
   //Creates a variable password and assigns it the return value of generatePassword
   var password = generatePassword();
-  //Creates a variable that stores the html for the password readonly text area
-  var passwordText = document.querySelector("#password");
 
-  //assigns the value of that html to the password variable
-  passwordText.value = password;
+  if (password != undefined) {
+    //Creates a variable that stores the html for the password readonly text area
+    var passwordText = document.querySelector("#password");
+
+    //assigns the value of that html to the password variable
+    passwordText.value = password;
+  }
 }
 
 // Add event listener to generate button
@@ -19,8 +22,43 @@ generateBtn.addEventListener("click", writePassword);
 
 function generatePassword() {
   var gatheredInformation = gatherUserInput();
-  for (let i = 0; i < gatheredInformation[0]; i++) {
-    console.log(i);
+  console.log(gatheredInformation);
+  var password = "";
+  i = 0;
+  if (gatheredInformation != undefined) {
+    while (i < gatheredInformation[4]) {
+      randomCharacter();
+
+      function randomCharacter() {
+        switch (getRandomInt(4)) {
+          case 0:
+            if (gatheredInformation[0]) {
+              console.log("generate lowercase");
+              password += getRandomLetter().toLowerCase();
+              i++;
+            }
+          case 1:
+            if (gatheredInformation[1]) {
+              console.log("generate uppercase");
+              password += getRandomLetter().toUpperCase();
+              i++;
+            }
+          case 2:
+            if (gatheredInformation[2]) {
+              console.log("generate number");
+              password += getRandomInt(10);
+              i++;
+            }
+          case 3:
+            if (gatheredInformation[3]) {
+              console.log("generate special");
+              password += getRandomSpecial();
+              i++;
+            }
+        }
+      }
+    }
+    return password;
   }
 }
 
@@ -52,11 +90,11 @@ function gatherUserInput() {
     ) == true
   ) {
     return [
-      passwordLength,
       passwordLower,
       passwordUpper,
       passwordNumeric,
       passwordSpecial,
+      passwordLength,
     ];
   }
 
@@ -93,4 +131,18 @@ function gatherUserInput() {
       return true;
     }
   }
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function getRandomLetter() {
+  letters = "abcdefghijklmnopqrstuvwxyz";
+  return letters[getRandomInt(25)];
+}
+
+function getRandomSpecial() {
+  special = "!@#$-_%^&*?";
+  return special[getRandomInt(10)];
 }
