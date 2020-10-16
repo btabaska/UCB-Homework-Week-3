@@ -151,6 +151,6 @@ function getRandomLetter() {
 }
 //random special generator
 function getRandomSpecial() {
-  special = "!@#$-_%^&*?";
-  return special[getRandomInt(10)];
+  special = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+  return special[getRandomInt(30)];
 }
